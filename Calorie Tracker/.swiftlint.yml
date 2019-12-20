@@ -11,3 +11,4 @@ whitelist_rules:
 
 excluded: # paths to ignore during linting.
   - Carthage
+  - Pods
