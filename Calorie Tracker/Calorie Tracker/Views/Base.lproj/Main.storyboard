@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Calorie Tracker Table View Controller-->
         <scene sceneID="RI1-W1-AUy">
             <objects>
-                <tableViewController id="yIj-kC-M6O" sceneMemberID="viewController">
+                <tableViewController id="yIj-kC-M6O" customClass="CalorieTrackerTableViewController" customModule="Calorie_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="PjE-xr-XlU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,7 +34,13 @@
                             <outlet property="delegate" destination="yIj-kC-M6O" id="vdt-3h-KZB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="aii-Bu-iUe"/>
+                    <navigationItem key="navigationItem" id="aii-Bu-iUe">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4KB-4J-y5n">
+                            <connections>
+                                <action selector="addCalorieCountTapped:" destination="yIj-kC-M6O" id="pJ6-WC-oJ3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rdH-D1-ui7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
