@@ -8,15 +8,26 @@
 
 import UIKit
 import CoreData
+import SwiftChart
 
 class CalorieTrackerTableViewController: UITableViewController {
     var calories = [CalorieCount]()
 
+    var date = Date()
+
+    var df: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.autoupdatingCurrent
+        formatter.dateFormat = "h:mm:ss | LLL dd, yyyy"
+        return formatter
+    }
+
+
+    @IBOutlet weak var chart: Chart!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let fetchRequest: NSFetchRequest<CalorieCount> = CalorieCount.fetchRequest()
-        
         do {
            let calories = try CoreDataStack.context.fetch(fetchRequest)
             self.calories = calories
@@ -24,7 +35,7 @@ class CalorieTrackerTableViewController: UITableViewController {
         } catch {
             print(error)
         }
-
+        addToChart()
     }
 
     // MARK: - Table view data source
@@ -36,9 +47,8 @@ class CalorieTrackerTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = String(calories[indexPath.row].calories)
-        cell.detailTextLabel?.text = "\(calories[indexPath.row].timeStamp)"
-
+        cell.textLabel?.text = String(calories[indexPath.row].calories) + " Calories"
+        cell.detailTextLabel?.text = df.string(from: calories[indexPath.row].timeStamp!)
         return cell
     }
     // MARK: - Methods
@@ -51,24 +61,31 @@ class CalorieTrackerTableViewController: UITableViewController {
         }
         let action = UIAlertAction(title: "Add", style: .default) { (_) in
             let totalCalories = alert.textFields?.first?.text
-            let timeStamp = Date.self
-            print(totalCalories)
-            print(timeStamp)
+            print(totalCalories!)
             let calorieCount = CalorieCount(context: CoreDataStack.context)
             calorieCount.calories = Int16(totalCalories!)!
+            calorieCount.timeStamp = Date.currentTimeStamp
             CoreDataStack.saveContext()
             self.calories.append(calorieCount)
-            print(calorieCount)
+            print(calorieCount.timeStamp!)
             self.tableView.reloadData()
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
-    func chartCals() {
-        
-        var chartCalArr: [Double] = []
-        
-        
+    func addToChart() {
+        var chartArr: [Double] = []
+        //Iterate through the calories array, pull out each value and push it into the array of doubles
+        _ = calories.forEach { chartArr.append(Double($0.calories)) }
+        print(chartArr)
+        let series = ChartSeries(chartArr)
+        chart.add(series)
+
+    }
+}
+
+extension Date {
+    static var currentTimeStamp: Date {
+        return Date()
     }
 }

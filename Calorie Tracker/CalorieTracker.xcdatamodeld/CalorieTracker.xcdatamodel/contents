@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CalorieCount" representedClassName=".CalorieCount" syncable="YES">
         <attribute name="calories" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="timeStamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timeStamp" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="CalorieCount" positionX="-63" positionY="-18" width="128" height="73"/>
