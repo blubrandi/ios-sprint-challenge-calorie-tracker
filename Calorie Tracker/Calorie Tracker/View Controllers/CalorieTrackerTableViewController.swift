@@ -7,12 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 class CalorieTrackerTableViewController: UITableViewController {
     var calories = [CalorieCount]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let fetchRequest: NSFetchRequest<CalorieCount> = CalorieCount.fetchRequest()
+        
+        do {
+            let calories = try CoreDataStack.context.fetch(fetchRequest)
+            self.calories = calories
+            self.tableView.reloadData()
+        } catch {
+            print(error)
+        }
 
     }
 
