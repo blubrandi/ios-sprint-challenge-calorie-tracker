@@ -5,9 +5,11 @@
 
 # Only add rules here you want to auto-correct
 whitelist_rules: 
-- trailing_whitespace
 - trailing_semicolon
 - trailing_newline
+
+disabled_rules:
+- trailing_whitespace
 
 excluded: # paths to ignore during linting.
   - Carthage

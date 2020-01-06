@@ -16,7 +16,7 @@ extension CalorieCount {
         return NSFetchRequest<CalorieCount>(entityName: "CalorieCount")
     }
 
-    @NSManaged public var calories: String
+    @NSManaged public var calories: Int16
     @NSManaged public var timeStamp: Date?
 
 }

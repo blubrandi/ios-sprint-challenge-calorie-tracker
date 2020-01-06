@@ -18,7 +18,7 @@ class CalorieTrackerTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<CalorieCount> = CalorieCount.fetchRequest()
         
         do {
-            let calories = try CoreDataStack.context.fetch(fetchRequest)
+           let calories = try CoreDataStack.context.fetch(fetchRequest)
             self.calories = calories
             self.tableView.reloadData()
         } catch {
@@ -36,7 +36,7 @@ class CalorieTrackerTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = calories[indexPath.row].calories
+        cell.textLabel?.text = String(calories[indexPath.row].calories)
         cell.detailTextLabel?.text = "\(calories[indexPath.row].timeStamp)"
 
         return cell
@@ -55,12 +55,20 @@ class CalorieTrackerTableViewController: UITableViewController {
             print(totalCalories)
             print(timeStamp)
             let calorieCount = CalorieCount(context: CoreDataStack.context)
-            calorieCount.calories = totalCalories!
+            calorieCount.calories = Int16(totalCalories!)!
             CoreDataStack.saveContext()
             self.calories.append(calorieCount)
+            print(calorieCount)
             self.tableView.reloadData()
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func chartCals() {
+        
+        var chartCalArr: [Double] = []
+        
+        
     }
 }
