@@ -12,8 +12,10 @@ import SwiftChart
 
 class CalorieTrackerTableViewController: UITableViewController {
     var calories = [CalorieCount]()
+    var calorieTrackerTableViewController: CalorieTrackerTableViewController?
 
     var date = Date()
+    let notificationCenter = NotificationCenter()
 
     var df: DateFormatter {
         let formatter = DateFormatter()
@@ -27,6 +29,7 @@ class CalorieTrackerTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let fetchRequest: NSFetchRequest<CalorieCount> = CalorieCount.fetchRequest()
         do {
            let calories = try CoreDataStack.context.fetch(fetchRequest)
@@ -35,7 +38,9 @@ class CalorieTrackerTableViewController: UITableViewController {
         } catch {
             print(error)
         }
+
         addToChart()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateViews(_:)), name: .caloriesAdded, object: nil)
     }
 
     // MARK: - Table view data source
@@ -73,14 +78,19 @@ class CalorieTrackerTableViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    func addToChart() {
+    @objc func addToChart() {
         var chartArr: [Double] = []
         //Iterate through the calories array, pull out each value and push it into the array of doubles
         _ = calories.forEach { chartArr.append(Double($0.calories)) }
         print(chartArr)
         let series = ChartSeries(chartArr)
-        chart.add(series)
 
+        chart.add(series)
+        chart.reloadInputViews()
+    }
+    @objc func updateViews(_ notification: Notification) {
+        chart.becomeFirstResponder()
+        chart.reloadInputViews()
     }
 }
 
@@ -89,3 +99,4 @@ extension Date {
         return Date()
     }
 }
+
